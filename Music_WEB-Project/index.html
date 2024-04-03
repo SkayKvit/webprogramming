@@ -136,8 +136,63 @@
             height: fit-content; /* Висота, що відповідає розміру контенту */
 
         }
-      
-        
+        /* Медіа запити для екранів шириною менше або рівно 768px */
+        @media only screen and (max-width: 768px) {
+            body {
+            background-image: url('image/background.jpg'); /* Встановлюємо фонове зображення для малих екранів */
+            }
+            .container {
+                padding: 20px; /* Збільшуємо внутрішні відступи контейнера */
+            }
+            .top-nav-container nav ul {
+                display: none; /* Ховаємо основний список на малих екранах */
+                position: absolute;
+                top: 100%; /* Відступ від верхнього краю батьківського елемента */
+                left: 0;
+                background-color: #f0f0f0; /* Колір фону для випадаючого списку */
+                width: 100%;
+                z-index: 1; /* Задаємо високий індекс для випадаючого списку */
+                border-top: 1px solid #ccc; /* Розділювальна лінія зверху */
+
+            }
+            .top-nav-container nav ul li:hover {
+                background-color: #ddd; /* Колір фону при наведенні на пункт меню */
+            }
+            .top-nav-container nav ul li {
+                display: block;
+                margin: 10px 0; /* Додатковий відступ між пунктами меню */
+            }
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center; /* Вирівнюємо вміст по центру */
+            }
+            img {
+                max-width: 100%; /* Зображення займає всю ширину контейнера */
+            }
+            .rating {
+                margin-bottom: 20px; /* Збільшуємо відстань між рейтингом і кнопкою */
+            }
+            footer {
+                text-align: center; /* Вирівнюємо текст у футері по центру */
+            }
+            /* Стилі для оцінок */
+            .rating label {
+                width: 40px; /* Збільшуємо ширину оцінок для кращого торкання на маленьких екранах */
+                height: 40px; /* Збільшуємо висоту оцінок для кращого торкання на маленьких екранах */
+            }
+            .top-nav-container nav nav.active ul {
+                display: block; /* Показуємо список при кліку на гамбургер */
+            }
+            .top-nav-container nav .menu-toggle {
+                display: block; /* Показуємо гамбургер на екранах менше 768px */
+            }
+        }
+        @media only screen and (min-width: 769px) {
+            .menu-toggle {
+                display: none; /* Ховаємо кнопку "бургер" на великих екранах */
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dreaming+Outloud+Script+Pro&display=swap" rel="stylesheet">
 </head>
