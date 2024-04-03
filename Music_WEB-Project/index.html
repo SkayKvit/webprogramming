@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music in our heart</title>
+    <style>
+        /* CSS стилі */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Білий фон */
+            font-family: 'Dreaming Outloud Script Pro', cursive; /* Використовуємо шрифт Dreaming Outloud Script Pro */
+            background-image: url('image/background.jpg'); /* Шлях до вашого зображення */
+            background-size: cover; /* Розтягнути зображення на всю площу екрану */
+            background-repeat: no-repeat; /* Відключити повторення зображення */
+            background-position: center; /* Вирівнюємо зображення по центру */
+            backdrop-filter: blur(10px); /* Розмиття фону */
+        }
+        .container {
+            max-width: 1200px; /* Максимальна ширина контейнера */
+            margin: 0 auto; /* Вирівнювання по центру */
+            padding: 0; /* Додати внутрішній відступ зправа і зліва */
+        }
+        .top-nav-container nav {
+            background-color: rgba(240, 248, 255, 0.7); /* Ніжно голубий колір з розмитістю */
+            padding: 10px;
+            border-radius: 10px; /* Округлені кути */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Рамка з розмитістю */
+        }
+        .top-nav-container nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: right; /*  розташування праворуч */
+        }
+        .top-nav-container nav ul li {
+            display: inline;
+            margin-left: 20px; /*  відстань між пунктами меню */
+        }
+        .top-nav-container nav ul li:first-child {
+            margin-left: 0; /*  видаляємо відстань для першого пункту меню */
+        }
+        .top-nav-container nav ul li a {
+            text-decoration: none;
+            color: #000; /* Чорний колір тексту */
+        }
+        .bio {
+            font-style: italic;
+        }
+        img {
+            max-width: 60%; 
+            display: block; /* Вирівнення фото по центру */
+            margin: 0 auto; /* Вирівнення фото по центру */
+        }
+        h1 {
+            text-align: center; /* Вирівнюємо назву виконавця по центру */
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50; /* Зелений колір кнопки */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Зелений колір кнопки при наведенні */
+        }
+        /* Стилі для оцінок */
+        .rating {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .rating input[type="radio"] {
+            display: none; /* Ховаємо радіокнопки */
+        }
+        .rating label {
+            display: inline-block;
+            width: 30px; /* Ширина елементів з оцінками */
+            height: 30px; /* Висота елементів з оцінками */
+            background-color: #ddd; /* Сірий колір */
+            margin-right: 5px; /* Відстань між оцінками */
+            text-align: center;
+            line-height: 30px; /* Вирівнюємо текст по вертикалі */
+            cursor: pointer;
+            border-radius: 50%; /* Круглі краї */
+        }
+        .rating label:hover,
+        .rating label:hover ~ label {
+            background-color: #f2b600; /* Жовтий колір при наведенні */
+        }
+        .rating input[type="radio"]:checked ~ label {
+            background-color: #ff9900; /* Помаранчевий колір для вибраної оцінки */
+        }
+
+        .top-nav-container nav ol {
+            list-style: none; /* Відключаємо стандартні маркери списку */
+            padding: 0; /* Видаляємо зовнішні відступи */
+        }
+
+        .container nav ol li a {
+            text-decoration: none; /* Видаляємо підкреслення */
+            color: #9f68f8; /* Чорний колір тексту */
+        }
+
+        .container nav ol li a:hover {
+            text-decoration: underline; /* Додаємо підкреслення при наведенні */
+        }
+
+        .social-icons li {
+            list-style: none; /* Відключення маркера списку */
+            display: inline-block; /* Відображення елементів в рядку */
+            margin-right: 10px; /* Відстань між іконками */
+        }
+        .social-icons li a {
+            text-decoration: none; /* Видаляємо підкреслення */
+            color: #000; /* Чорний колір тексту */
+        }
+
+        .social-icons li img {
+            width: 20px; /* Ширина іконок */
+            height: 20px; /* Висота іконок */
+            margin-right: 5px; /* Відстань між іконкою та текстом */
+            vertical-align: left; /* Вирівнювання по вертикалі */
+        }
+
+        ol {
+            border: 2px solid rgba(255, 0, 0, 0.5); /* прозоро-червона рамка */
+            background-color: rgba(255, 0, 0, 0.1); /* прозоро-червона заливка */
+            border-radius: 20px; /* заокруглені краї */
+            padding: 18px; /* внутрішні відступи для контенту від рамки */
+            width: fit-content; /* Ширина, що відповідає розміру контенту */
+            height: fit-content; /* Висота, що відповідає розміру контенту */
+
+        }
+        /* Медіа запити для екранів шириною менше або рівно 768px */
+        @media only screen and (max-width: 768px) {
+            body {
+            background-image: url('image/background.jpg'); /* Встановлюємо фонове зображення для малих екранів */
+            }
+            .container {
+                padding: 20px; /* Збільшуємо внутрішні відступи контейнера */
+            }
+            .top-nav-container nav ul {
+                display: none; /* Ховаємо основний список на малих екранах */
+                position: absolute;
+                top: 100%; /* Відступ від верхнього краю батьківського елемента */
+                left: 0;
+                background-color: #f0f0f0; /* Колір фону для випадаючого списку */
+                width: 100%;
+                z-index: 1; /* Задаємо високий індекс для випадаючого списку */
+                border-top: 1px solid #ccc; /* Розділювальна лінія зверху */
+
+            }
+            .top-nav-container nav ul li:hover {
+                background-color: #ddd; /* Колір фону при наведенні на пункт меню */
+            }
+            .top-nav-container nav ul li {
+                display: block;
+                margin: 10px 0; /* Додатковий відступ між пунктами меню */
+            }
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center; /* Вирівнюємо вміст по центру */
+            }
+            img {
+                max-width: 100%; /* Зображення займає всю ширину контейнера */
+            }
+            .rating {
+                margin-bottom: 20px; /* Збільшуємо відстань між рейтингом і кнопкою */
+            }
+            footer {
+                text-align: center; /* Вирівнюємо текст у футері по центру */
+            }
+            /* Стилі для оцінок */
+            .rating label {
+                width: 40px; /* Збільшуємо ширину оцінок для кращого торкання на маленьких екранах */
+                height: 40px; /* Збільшуємо висоту оцінок для кращого торкання на маленьких екранах */
+            }
+            .top-nav-container nav nav.active ul {
+                display: block; /* Показуємо список при кліку на гамбургер */
+            }
+            .top-nav-container nav .menu-toggle {
+                display: block; /* Показуємо гамбургер на екранах менше 768px */
+            }
+        }
+        @media only screen and (min-width: 769px) {
+            .menu-toggle {
+                display: none; /* Ховаємо кнопку "бургер" на великих екранах */
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dreaming+Outloud+Script+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-nav-container">
+        <nav class="top-nav">
+            <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+            <ul>
+                <li><a href="main_ndex.html">Головна</a></li>
+                <li><a href="#TB">Tember Blanche</a></li>
+                <li><a href="#KS">Христина Соловій</a></li>
+            </ul>
+            
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 id="TB"> Tember Blanche</h1>
+            <nav>
+                <ol>
+                    <li><a href="https://concert.ua/uk/event/tember-blanche-maks-ptashnik-lviv">Концерти</a></li>
+                    <li><a href="https://music.youtube.com/watch?v=yXRPrmShxAY&si=T9M_s_rl9jb3zOfZ">Улюблена пісня автора</a> </li>
+                </ol>
+            </nav>
+        </header>
+        <div class="content">
+            <section>
+                <img src="image/Tember_Blanche_.jpg" alt="Фото виконавця">
+            </section>
+            <section>
+                <h2>Біографія</h2>
+                <p class="bio">Tember Blanche - український інді-поп/інді-фолк дует заснований у 2020 році. Tember Blanche - це, по-перше, про синергію двох людей. По-друге, це про сенс. Вони вважають, що текст пісні має давати плоди для роздумів, чи принаймні бути поетичним.</p>
+            </section>
+            <section>
+                <h2>Відчуй наш ритм тут</h2>
+                <ul class="social-icons">
+                    <li>
+                        <a href="https://www.instagram.com/temberblanche">
+                            <img src="image/instagram_icon.avif" alt="Instagram">
+                            Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://music.youtube.com/channel/UCx_mWAs5ryADPGRXImeGHKA?si=F77hyJ0QV9fdRAV4">
+                            <img src="image/youtube_music_icon.png" alt="YouTube Music">
+                            YouTube Music
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    
+    <div class="container">
+        <form action="/leave_review" method="post" style="float: left; margin-right: 20px;">
+            <label for="review">Залиште свій відгук:</label><br>
+            <textarea id="review" name="review" rows="4" cols="50"></textarea><br>
+            <label>Оцінка:</label><br>
+            <div class="rating">
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1" title="Оцінка «1»"></label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2" title="Оцінка «2»"></label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3" title="Оцінка «3»"></label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4" title="Оцінка «4»"></label>
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5" title="Оцінка «5»"></label>
+            </div>
+            <br>
+            <input type="submit" value="Надіслати відгук">
+        </form>
+        <div style="clear: both;"></div> <!-- Очищуємо плаваючі елементи -->
+    </div>
+    
+    
+    
+    <div class="container">
+        <header>
+            <h1 id="KS"> Христина Соловій</h1>
+            <nav>
+                <ol>
+                    <li><a href="https://concert.ua/uk/event/khrystyna-soloviy-mkchv">Концерти</a></li>
+                    <li><a href="https://music.youtube.com/watch?v=Vpl22jpZLDA&si=2_BwlLT6PuA3Omo0">Улюблена пісня автора</a> </li>
+                </ol>
+            </nav>
+        </header>
+        <div class="content">
+            <section>
+                <img src="image/Khrystyna_Soloviy.jpg" alt="Фото виконавця">
+            </section>
+            <section>
+                <h2>Біографія</h2>
+                <p class="bio">Христина Соловій - українська співачка, авторка-виконавиця пісень та музикант, представниця нового покоління української музики. У дебютному альбомі "Жива Вода" (2015) презентувала українські народні пісні у сучасних аранжуваннях. У альбомі "Любий Друг" (2018) стає співсаундпродюсером та презентує власну творчість. Саунд сповнений ностальгійною кінематографічною атмосферою, лірика ж чуттєвою драматичністю.</p>
+            </section>
+            <section>
+                <h2>Мене можна знайти і послухати тут</h2>
+                <ul class="social-icons">
+                    <li>
+                        <a href="https://www.instagram.com/soloviyka/">
+                            <img src="image/instagram_icon.avif" alt="Instagram">
+                            Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://music.youtube.com/channel/UCgCJfD_sUgRWpHbA-44j34A?si=kazXJ4fyQyGiw4gX">
+                            <img src="image/youtube_music_icon.png" alt="YouTube Music">
+                            YouTube Music
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <footer>
+        <p> &copy; 2024 Music in our heart</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector('.header .menu');
+            menu.classList.toggle('active');
+            var header = document.getElementById('header');
+            header.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>
