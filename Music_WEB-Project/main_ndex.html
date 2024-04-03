@@ -137,8 +137,43 @@
         .video-container iframe {
             max-width: 100%; /* Щоб відео не виходило за межі батьківського елемента */
         }
-        
-       
+        /* Медіа запити */
+        @media only screen and (max-width: 768px) {
+            /* Шапка */
+            .header {
+                flex-direction: column;
+                align-items: left;
+                height: auto; /* Додаємо властивість height: auto; для зміни висоти */
+                overflow: hidden; /* Додаємо властивість overflow: hidden; для заборони звертання */
+                max-height: 60px; /* Додаємо максимальну висоту */
+            }
+            .header.expanded {
+                max-height: 300px; /* Максимальна висота при розгорнутому меню */
+            }
+            .header .menu {
+                margin-top: 20px;
+                display: none; /* Ховаємо меню на малих екранах */
+                flex-direction: column;
+                align-items: left;
+                width: 100%; /* Робимо ширину 100% */
+            }
+            .header .menu.active {
+                display: flex; /* Показуємо меню, якщо воно активне */
+            }
+            .header .menu li {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .menu-toggle {
+                display: block; /* Показуємо кнопку "бургер" */
+            }
+            
+        }
+        @media only screen and (min-width: 769px) {
+            .menu-toggle {
+                display: none; /* Ховаємо кнопку "бургер" на великих екранах */
+            }
+        }
     </style>
      <link href="https://fonts.googleapis.com/css2?family=Dreaming+Outloud+Script+Pro&display=swap" rel="stylesheet">
 </head>
