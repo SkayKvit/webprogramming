@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Фільтри опитування</title>
+</head>
+<body>
+    <div>
+        <label for="genreFilter">Фільтр за жанром:</label>
+        <select id="genreFilter" name="genreFilter">
+            <option value="">Усі</option>
+            <option value="rock">Рок</option>
+            <option value="pop">Поп</option>
+            <option value="jazz">Джаз</option>
+            <option value="classical">Класична музика</option>
+        </select>
+    </div>
+    <div>
+        <label for="concertsFilter">Фільтр за кількістю відвіданих концертів:</label>
+        <select id="concertsFilter" name="concertsFilter">
+            <option value="">Усі</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </select>
+    </div>
+    <div>
+        <label for="bandFilter">Фільтр за участю в групі:</label>
+        <input type="checkbox" id="bandFilter" name="bandFilter" value="yes">
+        <label for="bandFilter">В групі</label>
+    </div>
+    <div id="filteredResults"></div>
+
+    <script>
+        // Отримати елемент, куди будуть відображатися результати фільтрації
+        const filteredResultsContainer = document.getElementById('filteredResults');
+
+        // Логіка фільтрації при зміні випадаючого списку або чекбокса
+        const genreFilter = document.getElementById('genreFilter');
+        const concertsFilter = document.getElementById('concertsFilter');
+        const bandFilter = document.getElementById('bandFilter');
+
+        genreFilter.addEventListener('change', filterSurveys);
+        concertsFilter.addEventListener('change', filterSurveys);
+        bandFilter.addEventListener('change', filterSurveys);
+
+        // Функція фільтрації результатів опитування
+        function filterSurveys() {
+            const selectedGenre = genreFilter.value;
+            const selectedConcerts = concertsFilter.value;
+            const isInBand = bandFilter.checked;
+            const musicSurveys = JSON.parse(localStorage.getItem('musicSurveys')) || [];
+            let filteredSurveys = musicSurveys;
+
+            // Фільтр за жанром
+            if (selectedGenre) {
+                filteredSurveys = filteredSurveys.filter(survey => survey.genre === selectedGenre);
+            }
+
+            // Фільтр за кількістю відвіданих концертів
+            if (selectedConcerts) {
+                filteredSurveys = filteredSurveys.filter(survey => survey.concerts === selectedConcerts);
+            }
+
+            // Фільтр за участю в групі
+            if (isInBand) {
+                filteredSurveys = filteredSurveys.filter(survey => survey.band === 'yes');
+            } else {
+                // Якщо не в групі, видаляємо записи з результатів фільтрації
+                filteredSurveys = filteredSurveys.filter(survey => survey.band !== 'yes');
+            }
+
+            // Очистити контейнер перед відображенням нових результатів
+            filteredResultsContainer.innerHTML = '';
+
+            // Відобразити результати фільтрації на сторінці
+            filteredSurveys.forEach(survey => {
+                const surveyItem = document.createElement('div');
+                surveyItem.textContent = `Жанр: ${survey.genre}, В групі: ${survey.band}`;
+                filteredResultsContainer.appendChild(surveyItem);
+            });
+        }
+    </script>
+</body>
+</html>

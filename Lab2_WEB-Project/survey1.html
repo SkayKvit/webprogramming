@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опитування про музику</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group input[type="password"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .form-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .form-group input[type="file"] {
+            margin-top: 5px;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Опитування про музику</h1>
+    <form id="musicSurveyForm">
+        <div class="form-group">
+            <label for="genre">Питання 1: Який ваш улюблений жанр музики?</label>
+            <select id="genre" name="genre">
+                <option value="rock">Рок</option>
+                <option value="pop">Поп</option>
+                <option value="jazz">Джаз</option>
+                <option value="classical">Класична музика</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="instrument">Питання 2: На якому музичному інструменті ви граєте?</label>
+            <input type="text" id="instrument" name="instrument">
+        </div>
+        <div class="form-group">
+            <label for="musicStart">Питання 3: Відколи ви займаєтеся музикою?</label>
+            <input type="date" id="musicStart" name="musicStart">
+        </div>
+        <div class="form-group">
+            <label for="band">Питання 4: Чи є у вас власний музичний гурт?</label>
+            <input type="checkbox" id="band" name="band" value="yes">
+            <label for="band">Так</label>
+        </div>
+        <div class="form-group">
+            <label for="song">Питання 5: Ваш улюблений музичний трек?</label>
+            <textarea id="song" name="song"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="albums">Питання 6: Улюблений музичний альбом?</label>
+            <input type="text" id="albums" name="albums">
+        </div>
+        <div class="form-group">
+            <label for="concerts">Питання 7: Скільки музичних концертів ви відвідали цього року?</label>
+            <input type="number" id="concerts" name="concerts" min="0">
+        </div>
+        <div class="form-group">
+            <label for="listeningFrequency">Питання 8: Як часто ви слухаєте музику? (0 - нечасто, 100 - часто)</label>
+            <input type="range" id="listeningFrequency" name="listeningFrequency" min="0" max="100" value="50">
+            <input type="number" id="listeningFrequencyValue" name="listeningFrequencyValue" min="0" max="100" value="50">
+        </div>
+        <div class="form-group">
+            <label for="platform">Питання 9: Улюблена музична платформа?</label>
+            <input type="text" id="platform" name="platform" list="platforms">
+            <datalist id="platforms">
+                <option value="Spotify">
+                <option value="Apple Music">
+                <option value="YouTube Music">
+                <option value="Deezer">
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="favoriteArtistFile">Питання 10: Ваш улюблений музичний виконавець?</label>
+            <input type="file" id="favoriteArtistFile" name="favoriteArtistFile">
+        </div>
+        <button type="submit" class="btn-submit">Відправити</button>
+    </form>
+</div>
+
+<script>
+const form = document.getElementById('musicSurveyForm');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = {};
+    
+    for (let [name, value] of formData) {
+        data[name] = value;
+    }
+    
+    const musicSurveys = JSON.parse(localStorage.getItem('musicSurveys')) || [];
+    musicSurveys.push(data);
+    localStorage.setItem('musicSurveys', JSON.stringify(musicSurveys));
+    
+    alert('Дані про музику успішно збережено в LocalStorage!');
+    form.reset();
+});
+
+// Отримати елемент, куди будуть відображатися результати фільтрації
+const filteredResultsContainer = document.getElementById('filteredResults');
+
+// Логіка фільтрації за жанром при зміні випадаючого списку
+genreFilter.addEventListener('change', function() {
+    const selectedGenre = genreFilter.value;
+    const musicSurveys = JSON.parse(localStorage.getItem('musicSurveys')) || [];
+    const filteredSurveys = musicSurveys.filter(survey => survey.genre === selectedGenre);
+    
+    // Очистити контейнер перед відображенням нових результатів
+    filteredResultsContainer.innerHTML = '';
+    
+    // Відобразити результати фільтрації на сторінці
+    filteredSurveys.forEach(survey => {
+        const surveyItem = document.createElement('div');
+        surveyItem.textContent = `Жанр: ${survey.genre}, Інструмент: ${survey.instrument}`;
+        filteredResultsContainer.appendChild(surveyItem);
+    });
+});
+</script>
+
+
+<div id="filteredResults"></div>
+
+
+
+
+</body>
+</html>

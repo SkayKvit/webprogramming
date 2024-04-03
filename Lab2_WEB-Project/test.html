@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Культурний тест</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .question-container {
+        margin-bottom: 20px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    .question {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .answers {
+        margin-left: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .result {
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .correct-answer {
+        color: green;
+    }
+
+    .wrong-answer {
+        color: red;
+    }
+</style>
+</head>
+<body>
+<div id="testContainer"></div>
+<div id="resultContainer" class="result"></div>
+
+<script>
+const testData = {
+    testName: "Культурний тест",
+    questions: [
+        {
+            question: "Яке твердження правильне?",
+            options: [
+                { statement: '"Іван Семенович Нечуй-Левицький" - "Кайдашева сім\'я"  ', isCorrect: true },
+                { statement: '"Пантелеймон Куліш" - "Хіба ревуть воли, як ясла повні?"', isCorrect: false },
+                { statement: '"Панас Мирний" - "Мир нам"', isCorrect: false },
+                { statement: '"Іван Франко"-"Я і Сара"', isCorrect: false }
+            ]
+        },
+        {
+            question: "Коли народився Тарас Григорович Шевченко?",
+            options: [
+                { statement: "10.12.1789", isCorrect: true },
+                { statement: "09.03.1861", isCorrect: false },
+                { statement: "09.03.1814", isCorrect: false },
+                { statement: "10.03.1814", isCorrect: false }
+            ]
+        },
+        {
+            question: "Що стосується твору 'Енеїда' Котляревського?",
+            options: [
+                { statement: "Написана Петром", isCorrect: false },
+                { statement: "Засвідчила початок нової доби: національного відродження і зародження нової української літератури", isCorrect: true },
+                { statement: "Перший твір Котляревського", isCorrect: false },
+                { statement: "Надрукована вперше в Києві", isCorrect: false }
+            ]
+        },
+        {
+            question: "Оберіть правильну послідовність?",
+            options: [
+                { statement: "Русалка Дністрова, Кобзар, Як дитиною, бувало..., Балада про соняшник", isCorrect: true },
+                { statement: "Як дитиною, бувало..., Русалка Дністрова, Балада про соняшник, Кобзар", isCorrect: false }
+            ]
+        },
+        {
+            question: "А й правда, ... ґрунту не треба. Землі немає, то буде небо. Немає ... , то буде воля. Немає пари, то будуть ... .",
+            options: [
+                { statement: "мрійникам, москви, люди", isCorrect: false },
+                { statement: "людям, сонця, хмари", isCorrect: false },
+                { statement: "крилатим, поля, хмари", isCorrect: true }
+            ]
+        }
+    ]
+};
+
+const testContainer = document.getElementById('testContainer');
+const resultContainer = document.getElementById('resultContainer');
+
+function buildTest(testData) {
+    testData.questions.forEach((question, index) => {
+        const questionContainer = document.createElement('div');
+        questionContainer.classList.add('question-container');
+
+        const questionElement = document.createElement('div');
+        questionElement.classList.add('question');
+        questionElement.textContent = `${index + 1}. ${question.question}`;
+
+        const answersContainer = document.createElement('div');
+        answersContainer.classList.add('answers');
+
+        question.options.forEach((option, optionIndex) => {
+            const optionElement = document.createElement('input');
+            optionElement.type = 'radio';
+            optionElement.name = `question${index}`;
+            optionElement.value = optionIndex;
+            optionElement.id = `q${index}o${optionIndex}`;
+
+            const optionLabel = document.createElement('label');
+            optionLabel.textContent = option.statement;
+            optionLabel.setAttribute('for', `q${index}o${optionIndex}`);
+
+            answersContainer.appendChild(optionElement);
+            answersContainer.appendChild(optionLabel);
+            answersContainer.appendChild(document.createElement('br'));
+        });
+
+        questionContainer.appendChild(questionElement);
+        questionContainer.appendChild(answersContainer);
+        testContainer.appendChild(questionContainer);
+    });
+
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Перевірити результат';
+    submitButton.addEventListener('click', calculateResult);
+
+    testContainer.appendChild(submitButton);
+}
+
+function calculateResult() {
+    const userAnswers = [];
+    testData.questions.forEach((question, index) => {
+        const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
+        if (selectedAnswer) {
+            userAnswers.push(parseInt(selectedAnswer.value));
+        } else {
+            userAnswers.push(null);
+        }
+    });
+
+    let correctAnswers = 0;
+    userAnswers.forEach((answerIndex, index) => {
+        if (answerIndex !== null && testData.questions[index].options[answerIndex].isCorrect) {
+            correctAnswers++;
+        }
+    });
+
+    const resultText = `Ви відповіли правильно на ${correctAnswers} з ${testData.questions.length} питань.`;
+    resultContainer.textContent = resultText;
+}
+
+buildTest(testData);
+</script>
+</body>
+</html>
